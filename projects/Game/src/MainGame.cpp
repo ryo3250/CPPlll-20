@@ -33,9 +33,9 @@ namespace
     unique_ptr<GameObject> CreateSphere(Vector3 pos)
     {
         auto sphere = make_unique<GameObject>(u8"Sphere",
-            SphereRenderer::create<VertexPN>(u8"resource/VertexTest.hlsl"),
-//              SphereRenderer::create<VertexPN>(u8"resource/PixelTest1.hlsl"),
-//            SphereRenderer::create<VertexPNT>(u8"resource/PixelTest2.hlsl", u8"resource/wood-2.png"),
+            //            SphereRenderer::create<VertexPN>(u8"resource/VertexTest.hlsl"),
+            //              SphereRenderer::create<VertexPN>(u8"resource/PixelTest1.hlsl"),
+            SphereRenderer::create<VertexPNT>(u8"resource/PixelTest2.hlsl", u8"resource/wood-2.png"),
             make_unique<SphereCollider>(Vector3::zero, 1.0f),
             make_unique<Rigidbody>()
         );
@@ -78,17 +78,17 @@ void MainGame::createMap()
     auto map = make_unique<GameObject>();
 
     // 床
-    for(int i = 0; i < mapHeight; i++)
+    for (int i = 0; i < mapHeight; i++)
     {
-        for(int j = 0; j < mapWidth; j++)
+        for (int j = 0; j < mapWidth; j++)
         {
             auto rb = make_unique<Rigidbody>();
             rb->gravityScale = 0;
             rb->mass = numeric_limits<float>::infinity();
             auto floor = make_unique<GameObject>(u8"床",
-                CubeRenderer::create<VertexPN>(u8"resource/VertexTest.hlsl"),
-//                CubeRenderer::create<VertexPN>(u8"resource/PixelTest1.hlsl"),
-//                CubeRenderer::create<VertexPNT>(floorMat),
+                // CubeRenderer::create<VertexPN>(u8"resource/VertexTest.hlsl"),
+                // CubeRenderer::create<VertexPN>(u8"resource/PixelTest1.hlsl"),
+                CubeRenderer::create<VertexPNT>(floorMat),
                 move(rb),
                 make_unique<AABBCollider>());
             floor->transform->localScale = Vector3(2, 2, 2);
@@ -103,7 +103,7 @@ void MainGame::createMap()
     }
 
     // 壁
-    for(int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
     {
         auto rb = make_unique<Rigidbody>();
         rb->gravityScale = 0;
@@ -148,7 +148,7 @@ unique_ptr<UniDx::Scene> MainGame::CreateScene()
         make_unique<Rigidbody>(),
         make_unique<SphereCollider>(Vector3(0, 0.5f, 0)),
         make_unique<Player>()
-        );
+    );
     auto model = playerObj->GetComponent<GltfModel>();
     model->Load<VertexPNT>(
         u8"resource/ModularCharacterPBR.glb",
@@ -168,9 +168,9 @@ unique_ptr<UniDx::Scene> MainGame::CreateScene()
     light->transform->localPosition = Vector3(4, 3, -3);
     light->transform->localRotation = Quaternion::Euler(30, 60, 0.0f);
     Transform::SetParent(move(light), lights->transform);
-    for(int i = 0; i < 2; ++i)
+    for (int i = 0; i < 2; ++i)
     {
-        for(int j = 0; j < 2; ++j)
+        for (int j = 0; j < 2; ++j)
         {
             auto l = make_unique<Light>();
             l->type = LightType_Point;
@@ -211,7 +211,7 @@ unique_ptr<UniDx::Scene> MainGame::CreateScene()
     return make_unique<Scene>(
 
         move(cbControllerObj),
- 
+
         make_unique<GameObject>(u8"オブジェクトルート",
             move(playerObj),
             move(mapObj)
